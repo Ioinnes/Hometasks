@@ -46,5 +46,5 @@ int main() {
     sortTime = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
     std::cout << "The forward_list.sort() time: " << sortTime.count() << " mis\n";
 
-
+    return 0;
 }
