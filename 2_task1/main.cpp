@@ -28,12 +28,15 @@ int main() {
     //теперь попробуем запросить большой объем памяти для vector3
     std::vector<int> vector3;
     // но для начала узнаем максимальный размер вектора с помощью max_size
-    std::cout << vector3.max_size() << std::endl;
-    //зарезервируем максимальный размер и будем добавлять элементы до тех пор, пока его не достигнем
-    vector3.reserve(2305843009213693951);
-    for (long i = 0; i < 2305843009213693954; i++) {
+    //std::cout << "Max size: " << vector3.max_size() << std::endl;
+    //макс сайз примерно 2^50
+    //при попытке зарезервировать больше, чем 2^31 ловим ошибку bad_alloc, потому зарезервируем 2^31 и запушим > 2^31 элементов
+    vector3.reserve(2147483648);
+    for (long i = 0; i < 2147483651; i++) {
         //std::cout << vector3.size() << ' ' << vector3.capacity() << std::endl;
         vector3.push_back(1);
     }
     std::cout << vector3.size() << ' ' << vector3.capacity() << std::endl;
+    //Process finished with exit code 137 (interrupted by signal 9: SIGKILL)
+
 }
