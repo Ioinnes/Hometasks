@@ -38,5 +38,6 @@ int main() {
     }
     std::cout << vector3.size() << ' ' << vector3.capacity() << std::endl;
     //Process finished with exit code 137 (interrupted by signal 9: SIGKILL)
-
+    //вектор будет запрашивать память до тех пор, пока не исчерпает всю.
+    return 0;
 }
