@@ -5,11 +5,11 @@
 #include <boost/multi_array.hpp>
 
 template <typename T >
-void fill_multi_array(std::vector<std::vector<std::vector<int>>> &vector, boost::multi_array<T, 3> &multiArray) {
+void fill_multi_array(std::vector<std::vector<std::vector<int>>> &vector, boost::multi_array<T, 3U> &multiArray) {
     const auto size_1 = 3U;
     const auto size_2 = 4U;
     const auto size_3 = 5U;
-    auto counter = 0;
+    //собственно, заполняем multi_array в цикле
     for (auto i = 0U; i < size_1; ++i) {
         for (auto j = 0U; j < size_2; ++j) {
             for (auto k = 0U; k < size_3; ++k) {
@@ -47,7 +47,7 @@ int main()
     }
 
     std::vector<std::vector<std::vector<int>>> vector1;
-
+    //заполнение многомерного вектора
     for (auto i = 0U; i < size_1; ++i)
     {   std::vector<std::vector<int>> vector2;
         for (auto j = 0U; j < size_2; ++j)
@@ -62,12 +62,11 @@ int main()
         vector1.push_back(vector2);
     }
 
-
+    //  создание и заполнение boost::multi_array
     array_t multiArray(boost::extents[size_1][size_2][size_3]);
     fill_multi_array(vector1, multiArray);
 
-    counter = 0;
-
+    //вывод заполненного miltiArray
     for (auto i = 0U; i < size_1; ++i)
     {
         for (auto j = 0U; j < size_2; ++j)
