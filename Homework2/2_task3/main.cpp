@@ -4,9 +4,8 @@
 
 #include <boost/multi_array.hpp>
 
-template <typename T>
-boost::multi_array<T, 3U> fill_multi_array(std::vector<T> &vector) {
-    boost::multi_array<T, 3U> multiArray;
+template <typename T >
+void fill_multi_array(std::vector<std::vector<std::vector<int>>> &vector, boost::multi_array<T, 3> &multiArray) {
     const auto size_1 = 3U;
     const auto size_2 = 4U;
     const auto size_3 = 5U;
@@ -14,10 +13,8 @@ boost::multi_array<T, 3U> fill_multi_array(std::vector<T> &vector) {
     for (auto i = 0U; i < size_1; ++i) {
         for (auto j = 0U; j < size_2; ++j) {
             for (auto k = 0U; k < size_3; ++k) {
-                std::cout << (multiArray[i][j][k] = vector[++counter]) << " ";
+                multiArray[i][j][k] = vector[i][j][k];
             }
-
-            std::cout << std::endl;
         }
     }
 }
@@ -49,31 +46,25 @@ int main()
         std::cout << std::endl;
     }
 
-    using view_t = array_t::array_view < 2 > ::type;
+    std::vector<std::vector<std::vector<int>>> vector1;
 
-    using range_t = boost::multi_array_types::index_range;
-
-    view_t view = array[boost::indices[range_t(0, 2)][1][range_t(0, 5, 2)]];
-    //view_t view = array[boost::indices[range_t() < 2][range_t()][0 <= range_t().stride(2) <= 5]];
-
-    const auto view_size_1 = 2U;
-    const auto view_size_2 = 3U;
-
-    for (auto i = 0U; i < view_size_1; ++i)
-    {
-        for (auto k = 0U; k < view_size_2; ++k)
+    for (auto i = 0U; i < size_1; ++i)
+    {   std::vector<std::vector<int>> vector2;
+        for (auto j = 0U; j < size_2; ++j)
         {
-            std::cout << std::setw(2) << std::right << view[i][k] << " ";
+            std::vector<int> vector3;
+            for (auto k = 0U; k < size_3; ++k)
+            {   counter += 100;
+                vector3.push_back(counter);
+            }
+            vector2.push_back(vector3);
         }
-
-        std::cout << std::endl;
+        vector1.push_back(vector2);
     }
 
-    std::cout << std::endl;
 
-    std::vector<int> vector{4,3,2,1,4,5,3,7,8,6,
-                            5,3,7,3,1,8,9,4,2,1};
-    boost::multi_array<int, 3U> multiArray = fill_multi_array(vector);
+    array_t multiArray(boost::extents[size_1][size_2][size_3]);
+    fill_multi_array(vector1, multiArray);
 
     counter = 0;
 
@@ -83,7 +74,7 @@ int main()
         {
             for (auto k = 0U; k < size_3; ++k)
             {
-                std::cout << std::setw(2) << std::right << (multiArray[i][j][k]) << " ";
+               std::cout << std::setw(2) << std::right << (multiArray[i][j][k]) << " ";
             }
 
             std::cout << std::endl;
