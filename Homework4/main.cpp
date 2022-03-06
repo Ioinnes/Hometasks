@@ -34,11 +34,16 @@ int countOdd(std::vector<short> vector, int size) {
     return result;
 };
 
-template <typename T>
-std::pair<short, short> findMaxMin (std::vector<short> &vector, int size) {
-    short min = -100;
-    short max = inf
+std::pair<short, short> findMinMax (std::vector<short> &vector, int size) {
+    int indexMin = 0, indexMax = 0;
+    for (int i = 1; i < size; i++){
+        if (vector[indexMax] < vector[i])
+            indexMax = i;
+        if (vector[indexMin] > vector[i])
+            indexMin = i;
+    }
 
+    return std::make_pair(vector[indexMin], vector[indexMax]);
 }
 
 int main() {
@@ -78,6 +83,7 @@ int main() {
     size = vector.size();
     std::cout << "Odd: " << countOdd(vector, size) << std::endl;
 
-
+    std::pair<short, short> pairMinMax = findMinMax(vector, size);
+    std::cout << "Min: " << pairMinMax.first << std::endl << "Max: " << pairMinMax.second << std::endl;
 
 }
