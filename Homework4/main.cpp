@@ -69,6 +69,61 @@ void findPrimeNumber (std::vector<short> &vector) {
         }
     }
 }
+template <typename T>
+void squareVector (std::vector<T> &vector){
+    for(int i = 0; i < vector.size(); i++){
+        vector[i] = vector[i] * vector[i];
+    }
+
+}
+
+template <typename T>
+void changeVector(std::vector<T> &vector, int size) {
+    for(int i = 0; i < rand() % (size - 1) + 1; i++){
+        vector[i] = 1;
+    }
+};
+
+template <typename T>
+long sumVector(std::vector<T> &vector){
+    long result = 0;
+    for (T i : vector){
+        result += i;
+    }
+    return result;
+}
+
+
+template <typename T>
+void makeZeroVector(std::vector<T> &vector, int size){
+    for (int i = 0; i < size; i++){
+        if (vector[i] < 0)
+            vector[i] = 0;
+    }
+}
+
+template <typename T>
+void removeZero(std::vector<T> &vector, int size){
+    for (int i = 0; i < size; i++){
+        if (vector[i] == 0){
+            for(int k = i; k < size; k++){
+                vector[k] = vector[k+1];
+            }
+            vector.pop_back();
+            size--;
+            i--;
+        }
+
+    }
+}
+
+template<typename T>
+void reverseVector(std::vector<T> &vector){
+    int size = vector.size();
+    for(int i = 0; i < int(size / 2); i++){
+        std::swap(vector[i], vector[size - 1 - i]);
+    }
+}
 int main() {
     std::vector<short> vector;
     int size = 0;
@@ -104,5 +159,42 @@ int main() {
 
     findPrimeNumber(vector);
 
+    squareVector(vector);
+    std::cout<< "Squared Vector: ";
+    printVector(vector);
+
+    std::vector<int> newVector;
+    newVector.reserve(size);
+    for(int i = 0; i < size; i++) {
+        newVector.push_back(rand());
+    }
+    std::cout << "New vector: ";
+    printVector(newVector);
+
+    std::cout << "Sum in newVector: " << sumVector(newVector) << std::endl;
+
+    changeVector(newVector, size);
+    std::cout << "Changed newVector: ";
+    printVector(newVector);
+
+    std::vector<int> vector3;
+    vector3.reserve(size);
+    for (int i = 0; i < size; i++){
+        vector3.push_back(vector[i] - newVector[i]);
+    }
+    std::cout << "Make vector3: ";
+    printVector(vector3);
+
+    makeZeroVector(vector3, size);
+    std::cout << "Make zero vector3: ";
+    printVector(vector3);
+
+    removeZero(vector3, size);
+    std::cout << "Remove zero-elements: ";
+    printVector(vector3);
+
+    reverseVector(vector3);
+    std::cout << "Reversed vector3: ";
+    printVector(vector3);
     return 0;
 }
