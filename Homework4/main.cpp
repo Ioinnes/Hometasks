@@ -46,6 +46,21 @@ std::pair<short, short> findMinMax (std::vector<short> &vector, int size) {
     return std::make_pair(vector[indexMin], vector[indexMax]);
 }
 
+
+void findPrimeNumber (std::vector<short> &vector) {
+    int counter = 0;
+    for (short i: vector){
+        bool flag = true;
+        for (short j = 2; j < i / 2; j++){
+            if ((i % j) == 0)
+                flag = false;
+        }
+        if (flag && (i > 1)) {
+            counter++;
+            std::cout << "Prime Number #" << counter << ": " << i << std::endl;
+        }
+    }
+}
 int main() {
     std::vector<short> vector;
     srand(time(nullptr));
@@ -86,4 +101,7 @@ int main() {
     std::pair<short, short> pairMinMax = findMinMax(vector, size);
     std::cout << "Min: " << pairMinMax.first << std::endl << "Max: " << pairMinMax.second << std::endl;
 
+    findPrimeNumber(vector);
+
+    return 0;
 }
