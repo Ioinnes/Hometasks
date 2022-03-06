@@ -2,6 +2,14 @@
 #include <vector>
 
 template <typename T>
+void printVector(std::vector<T> &vector){
+    for (T i: vector){
+        std::cout << i << ' ';
+    }
+    std::cout << std::endl;
+}
+
+template <typename T>
 void mixVector(std::vector<T> &vector, int size) {
     srand(time(0));
     for (int i = 0; i < size; ++i)
@@ -51,7 +59,7 @@ void findPrimeNumber (std::vector<short> &vector) {
     int counter = 0;
     for (short i: vector){
         bool flag = true;
-        for (short j = 2; j < i / 2; j++){
+        for (int j = 2; j < i / 2 + 1; j++){
             if ((i % j) == 0)
                 flag = false;
         }
@@ -63,38 +71,31 @@ void findPrimeNumber (std::vector<short> &vector) {
 }
 int main() {
     std::vector<short> vector;
+    int size = 0;
     srand(time(nullptr));
     for (int i = 0; i < 255; i++){
         int a = rand() % 10 + 1;
         vector.push_back(a);
     }
 
-
     for (int i = 0; i < (rand() % 5); i++) {
         int n = 0;
         std::cin >> n;
         vector.push_back(n);
     }
-    int size = vector.size();
+
+    size = vector.size();
     std::cout << "Sequence is generated(std::cin is already used): ";
-    for (int i = 0; i < size; i++){
-        std::cout << vector[i] << ' ';
-    }
+    printVector(vector);
 
     mixVector(vector, vector.size());
-
-    std::cout << std::endl;
     std::cout << "Mixed: ";
-    for (int i = 0; i < size; i++){
-        std::cout << vector[i] << ' ';
-    }
-    std::cout << std::endl;
+    printVector(vector);
+
     removeDublicate(vector, size);
     std::cout << "Duplicates are removed: ";
-    for (short i : vector) {
-        std::cout << i << ' ';
-    }
-    std::cout << std::endl;
+    printVector(vector);
+
     size = vector.size();
     std::cout << "Odd: " << countOdd(vector, size) << std::endl;
 
