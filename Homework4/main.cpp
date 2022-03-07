@@ -166,7 +166,7 @@ void findInsertionRange(std::vector<T> vector, T insertElement) {
                 break;
             }
         }
-    std::cout<<"Range: " << '[' << beginOfRange << ", " << endOfRange - 1<< ']';
+    std::cout << "Range: " << '[' << beginOfRange << ", " << endOfRange - 1 << ']' << std::endl;
 }
 int main() {
     std::vector<short> vector1;
