@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <algorithm>
 
 template <typename T>
 void printVector(std::vector<T> &vector){
@@ -87,9 +89,7 @@ void changeVector(std::vector<T> &vector, int size) {
 template <typename T>
 long sumVector(std::vector<T> &vector){
     long result = 0;
-    for (T i : vector){
-        result += i;
-    }
+    for (T i: vector) result += i;
     return result;
 }
 
@@ -124,63 +124,108 @@ void reverseVector(std::vector<T> &vector){
         std::swap(vector[i], vector[size - 1 - i]);
     }
 }
+
+
+template <typename T, typename U>
+void mergeVectors(std::vector<T> &vector1, std::vector<U> &vector2, std::vector<int> &vector3){
+    int counter1 = 0, counter2 = 0, size1 = vector1.size(), size2 = vector2.size();
+    while (counter1 < size1 && counter2 < size2) {
+        if (vector1[counter1] <= vector2[counter2]) {
+            vector3.push_back(vector1[counter1]);
+            counter1++;
+        }
+        else {
+            vector3.push_back(vector2[counter2]);
+            counter2++;
+        }
+    }
+    if (counter1 != size1) {
+        for (int i = counter1; i < size1; i++)
+            vector3.push_back(vector1[i]);
+    }
+    else {
+        for (int i = counter2; i < size2; i++)
+            vector3.push_back(vector2[i]);
+    }
+}
+
+template<typename T>
+void findInsertionRange(std::vector<T> vector, T insertElement) {
+    int beginOfRange = 0, endOfRange = 0, sizeOfVector = vector.size();
+    for (int i = 0; i < sizeOfVector; i++) {
+        if (vector[i] < insertElement)
+            beginOfRange++;
+        else break;
+    }
+    endOfRange = beginOfRange;
+    for (int i = beginOfRange; i < sizeOfVector; i++){
+            if (vector[i] == insertElement){
+                endOfRange++;
+            }
+            else{
+                break;
+            }
+        }
+    std::cout<<"Range: " << '[' << beginOfRange << ", " << endOfRange - 1<< ']';
+}
 int main() {
-    std::vector<short> vector;
+    std::vector<short> vector1;
     int size = 0;
     srand(time(nullptr));
+
     for (int i = 0; i < 255; i++){
         int a = rand() % 10 + 1;
-        vector.push_back(a);
+        vector1.push_back(a);
     }
 
     for (int i = 0; i < (rand() % 5); i++) {
         int n = 0;
         std::cin >> n;
-        vector.push_back(n);
+        vector1.push_back(n);
     }
 
-    size = vector.size();
+    size = vector1.size();
     std::cout << "Sequence is generated(std::cin is already used): ";
-    printVector(vector);
+    printVector(vector1);
 
-    mixVector(vector, vector.size());
+    mixVector(vector1, vector1.size());
     std::cout << "Mixed: ";
-    printVector(vector);
+    printVector(vector1);
 
-    removeDublicate(vector, size);
+    removeDublicate(vector1, size);
     std::cout << "Duplicates are removed: ";
-    printVector(vector);
+    printVector(vector1);
 
-    size = vector.size();
-    std::cout << "Odd: " << countOdd(vector, size) << std::endl;
+    size = vector1.size();
+    std::cout << "Odd: " << countOdd(vector1, size) << std::endl;
 
-    std::pair<short, short> pairMinMax = findMinMax(vector, size);
+    std::pair<short, short> pairMinMax = findMinMax(vector1, size);
     std::cout << "Min: " << pairMinMax.first << std::endl << "Max: " << pairMinMax.second << std::endl;
 
-    findPrimeNumber(vector);
+    findPrimeNumber(vector1);
 
-    squareVector(vector);
+    squareVector(vector1);
     std::cout<< "Squared Vector: ";
-    printVector(vector);
+    printVector(vector1);
 
-    std::vector<int> newVector;
-    newVector.reserve(size);
+    std::vector<int> vector2;
+    vector2.reserve(size);
     for(int i = 0; i < size; i++) {
-        newVector.push_back(rand());
+        vector2.push_back(rand());
     }
     std::cout << "New vector: ";
-    printVector(newVector);
+    printVector(vector2);
 
-    std::cout << "Sum in newVector: " << sumVector(newVector) << std::endl;
+    std::cout << "Sum in vector2: " << sumVector(vector2) << std::endl;
 
-    changeVector(newVector, size);
-    std::cout << "Changed newVector: ";
-    printVector(newVector);
+    changeVector(vector2, size);
+    std::cout << "Changed vector2: ";
+    printVector(vector2);
 
     std::vector<int> vector3;
     vector3.reserve(size);
     for (int i = 0; i < size; i++){
-        vector3.push_back(vector[i] - newVector[i]);
+        vector3.push_back(vector1[i] - vector2[i]);
     }
     std::cout << "Make vector3: ";
     printVector(vector3);
@@ -196,5 +241,43 @@ int main() {
     reverseVector(vector3);
     std::cout << "Reversed vector3: ";
     printVector(vector3);
+
+    std::sort(vector3.begin(), vector3.end());
+    int sizeVector3 = vector3.size();
+    if (sizeVector3 >= 3) {
+        for (int i = 0; i < 3; i++)
+            std::cout << "top " << i + 1 << ": " << vector3[sizeVector3 - i - 1] << std::endl;
+    }
+    else {
+        for (int i = 0; i < sizeVector3; i++)
+            std::cout << "top " << i + 1 << ": " << vector3[sizeVector3 - i - 1] << std::endl;
+    }
+
+
+    std::sort(vector1.begin(), vector1.end());
+    std::sort(vector2.begin(), vector2.end());
+
+    std::cout << "Sorted vector: ";
+    printVector(vector1);
+    std::cout << "Sorted vector2: ";
+    printVector(vector2);
+
+    std::vector<int> vector4;
+    mergeVectors(vector1, vector2, vector4);
+    std::cout<<"Make vector4: ";
+    printVector(vector4);
+
+    //std::cout << vector4.size();
+
+    findInsertionRange(vector4, 1);
+
+    std::cout<< "vector1: ";
+    printVector(vector1);
+    std::cout << "vector2: ";
+    printVector(vector2);
+    std::cout << "vector3: ";
+    printVector(vector3);
+    std::cout << "vector4: ";
+    printVector(vector4);
     return 0;
 }
